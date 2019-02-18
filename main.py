@@ -1,7 +1,6 @@
 import os
 import asyncio
 import queue
-import time
 import threading
 
 def convert_video(Q):
