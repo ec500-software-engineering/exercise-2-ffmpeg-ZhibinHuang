@@ -6,7 +6,6 @@ import threading
 
 def convert_video(Q):
     while (not Q.empty()):
-        now = lambda: time.time()
         f = Q.get()
         async def covert_720p():
             os.system("./ffmpeg -i ./in/{} -b:v 2000k -bufsize 2000k -r 30  -strict -2 -s 1280x720 \
@@ -25,9 +24,6 @@ def convert_video(Q):
             #await asyncio.sleep(1)
             return '480P covert successfully'
 
-
-        start = now()
-
         coroutine1 = covert_720p()
         coroutine2 = covert_480p()
 
@@ -41,8 +37,6 @@ def convert_video(Q):
 
         for task in tasks:
             print('Task: ', task.result())
-
-        print('TIME: ', now() - start)
 
 
 if __name__ == '__main__':
