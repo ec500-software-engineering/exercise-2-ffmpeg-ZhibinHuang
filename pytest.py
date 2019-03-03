@@ -26,7 +26,6 @@ def test_time():
     meta_480 = ffprobe(fout)
     duration_480 = float(meta_480['streams'][0]['duration'])
     assert orig_duration == isclose(duration_480)
-    pass
 
 
 
