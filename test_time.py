@@ -2,6 +2,7 @@ import main as sun
 import queue
 import subprocess
 import json
+from pytest import approx
 from pathlib import Path
 
 
