@@ -3,9 +3,6 @@ import asyncio
 import queue
 import threading
 import time
-import subprocess
-import json
-from pathlib import Path
 
 def convert_video(Q):
     while (not Q.empty()):
@@ -43,13 +40,6 @@ def convert_video(Q):
             print('Task: ', task.result(),"for file {}".format(f))
         print('Time: ',time.time() - start_time)
 
-def ffprobe(filename:Path) -> dict:
-    meta = subprocess.check_output(['ffprobe', '-v', 'warning',
-                                        '-print_format', 'json',
-                                        '-show_streams',
-                                        '-show_format',
-                                        filename], universal_newlines=True)
-    return json.loads(meta)
 
 if __name__ == '__main__':
     Q = queue.Queue()
@@ -61,3 +51,4 @@ if __name__ == '__main__':
     #convert_video(Q)
     while (not Q.empty()):
         print(Q.get())
+
