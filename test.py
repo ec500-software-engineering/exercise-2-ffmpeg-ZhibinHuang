@@ -1,8 +1,8 @@
 import main as sun
 import queue
-from math import isclose
 import subprocess
 import json
+from pytest import approx
 from pathlib import Path
 
 def ffprobe_b(filename:Path) -> dict:
@@ -26,7 +26,7 @@ def test_time():
 
     meta_480 = ffprobe_b(fout)
     duration_480 = float(meta_480['streams'][0]['duration'])
-    assert orig_duration == isclose(orig_duration, duration_480, abs_tol=1)
+    assert orig_duration== approx(duration_480, rel=0.01)
 
 
 
