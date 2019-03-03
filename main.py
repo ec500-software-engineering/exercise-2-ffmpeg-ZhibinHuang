@@ -2,10 +2,15 @@ import os
 import asyncio
 import queue
 import threading
+import time
+import subprocess
+import json
+from pathlib import Path
 
 def convert_video(Q):
     while (not Q.empty()):
         f = Q.get()
+        start_time = time.time()
         async def covert_720p():
             os.system("./ffmpeg -i ./in/{} -b:v 2000k -bufsize 2000k -r 30  -strict -2 -s 1280x720 \
             ./out/{}_720p.mp4".format(f,f))
@@ -35,20 +40,24 @@ def convert_video(Q):
         loop.run_until_complete(asyncio.wait(tasks))
 
         for task in tasks:
-            print('Task: ', task.result())
-            
-def test_duration():
-    pass
+            print('Task: ', task.result(),"for file {}".format(f))
+        print('Time: ',time.time() - start_time)
+
+def ffprobe(filename:Path) -> dict:
+    meta = subprocess.check_output(['ffprobe', '-v', 'warning',
+                                        '-print_format', 'json',
+                                        '-show_streams',
+                                        '-show_format',
+                                        filename], universal_newlines=True)
+    return json.loads(meta)
 
 if __name__ == '__main__':
     Q = queue.Queue()
-    path = '/Users/huang/Downloads/500_softwore/in'
+    path = './in'
     files = os.listdir(path)
     for file in files:
         Q.put(file)
     Q.get()
-    convert_video(Q)
+    #convert_video(Q)
     while (not Q.empty()):
         print(Q.get())
-
-    #os.system("./ffmpeg -i ./in/in1.mp4 -b:v 2000k -bufsize 2000k -r 30  -strict -2 -s 1280x720 ./out/in1_outt1.mp4")
