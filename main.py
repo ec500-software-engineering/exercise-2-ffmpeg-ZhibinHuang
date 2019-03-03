@@ -36,7 +36,9 @@ def convert_video(Q):
 
         for task in tasks:
             print('Task: ', task.result())
-
+            
+def test_duration():
+    pass
 
 if __name__ == '__main__':
     Q = queue.Queue()
