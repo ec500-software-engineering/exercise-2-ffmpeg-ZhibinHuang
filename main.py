@@ -48,7 +48,7 @@ if __name__ == '__main__':
     for file in files:
         Q.put(file)
     Q.get()
-    #convert_video(Q)
+    convert_video(Q)
     while (not Q.empty()):
         print(Q.get())
 
